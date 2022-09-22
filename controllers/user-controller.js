@@ -138,30 +138,18 @@ const userController = {
   addLike: (req, res, next) => {
     const { restaurantId } = req.params
     const userId = req.user.id
-    return Promise.all([
-      Restaurant.findByPk(restaurantId),
-      Like.findOne({ where: { userId, restaurantId } })
-    ])
-      .then(([restaurant, like]) => {
-        if (!restaurant) throw new Error("Restaurant didn't exist!")
-        if (like) throw new Error('You have liked this restaurant!')
-        return Like.create({ userId, restaurantId })
-      })
+    return Like.findOrCreate({ where: { userId, restaurantId } })
       .then(() => res.redirect('back'))
       .catch(e => next(e))
   },
 
   removeLike: (req, res, next) => {
-    return Like.findOne({
+    return Like.destroy({
       where: {
         userId: req.user.id,
         restaurantId: req.params.restaurantId
       }
     })
-      .then(like => {
-        if (!like) throw new Error("You haven't liked this restaurant!")
-        return like.destroy()
-      })
       .then(() => res.redirect('back'))
       .catch(e => next(e))
   },
