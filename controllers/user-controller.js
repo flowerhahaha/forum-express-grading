@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs')
 const { User, Comment, Restaurant, Favorite, Like, Followship, sequelize } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helpers')
-const { getUser } = require('../helpers/auth-helpers')
 
 const userController = {
   getSignUpPage: (req, res) => {
@@ -46,23 +45,30 @@ const userController = {
   },
   // get user's profile page
   getUser: (req, res, next) => {
+    const userId = req.params.id
     return Promise
       .all([
         Comment.findAll({
-          where: { userId: req.params.id },
+          where: { userId },
           attributes: ['restaurantId'],
           group: 'restaurantId',
           include: Restaurant,
           nest: true,
           raw: true
         }),
-        User.findByPk(req.params.id, { raw: true })
+        User.findByPk(userId, {
+          include: [
+            { model: Restaurant, as: 'FavoritedRestaurants', attributes: ['id', 'name', 'image'] },
+            { model: User, as: 'Followings', attributes: ['id', 'name', 'image'] },
+            { model: User, as: 'Followers', attributes: ['id', 'name', 'image'] }
+          ],
+          nest: true
+        })
       ])
       .then(([comments, userProfile]) => {
         if (!userProfile) throw new Error("User doesn't exist.")
         res.render('users/profile', {
-          user: getUser(req),
-          userProfile,
+          userProfile: userProfile.toJSON(),
           comments
         })
       })

@@ -9,7 +9,7 @@ module.exports = {
         password: await bcrypt.hash('12345678', 10),
         is_admin: true,
         name: 'root',
-        image: 'https://loremflickr.com/400/400/girl',
+        image: 'https://loremflickr.com/400/400/cat?random=1',
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -18,7 +18,7 @@ module.exports = {
         password: await bcrypt.hash('12345678', 10),
         is_admin: false,
         name: 'user1',
-        image: 'https://loremflickr.com/400/400/girl',
+        image: 'https://loremflickr.com/400/400/cat?random=2',
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -27,7 +27,7 @@ module.exports = {
         password: await bcrypt.hash('12345678', 10),
         is_admin: false,
         name: 'user2',
-        image: 'https://loremflickr.com/400/400/girl',
+        image: 'https://loremflickr.com/400/400/cat?random=3',
         created_at: new Date(),
         updated_at: new Date()
       }
