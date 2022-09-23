@@ -35,9 +35,9 @@
             {{#each userProfile.Followings}}
             <a href="/restaurants/{{this.id}}" alt="{{this.name}}">
               {{#if this.image}}
-              <img src="{{this.image}}" width="60" height="60" class="rounded m-2" title="{{this.name}}"/>
+              <img src="{{this.image}}" style="object-fit:cover" width="60" height="60" class="rounded m-2" title="{{this.name}}"/>
               {{else}}
-              <img src="https://ksa102.com.tw/orderclass/image/noimage.jpg" width="60" height="60" class="rounded m-2" title="{{this.name}}"/>
+              <img src="https://ksa102.com.tw/orderclass/image/noimage.jpg" style="object-fit:cover" width="60" height="60" class="rounded m-2" title="{{this.name}}"/>
               {{/if}}
             </a>
             {{/each}}
@@ -57,7 +57,11 @@
           {{#if userProfile.Followers.length}}
             {{#each userProfile.Followers}}
             <a href="/restaurants/{{this.id}}" alt="{{this.name}}">
-              <img src="{{this.image}}" width="60" height="60" class="rounded m-2" title="{{this.name}}"/>
+              {{#if this.image}}
+              <img src="{{this.image}}" style="object-fit:cover" width="60" height="60" class="rounded m-2" title="{{this.name}}"/>
+              {{else}}
+              <img src="https://ksa102.com.tw/orderclass/image/noimage.jpg" style="object-fit:cover" width="60" height="60" class="rounded m-2" title="{{this.name}}"/>
+              {{/if}}
             </a>
             {{/each}}
           {{else}}
